@@ -9,7 +9,7 @@
                 <th data-field="id">ID</th>
                 <th data-field="nis">NIS</th>
                 <th data-field="nama">Nama</th>
-                <th data-field="class_id">Kelas</th>
+                <th data-field="get_class.name">Kelas</th>
                 <th data-formatter="buttonFormatter">Action</th>
             </tr>
         </thead>
@@ -27,9 +27,27 @@
         })
 
 
-        function buttonFormatter(value) {
+        function buttonFormatter(value, row) {
             return "<button class='btn btn-warning'>Edit</button> " +
-                " <button class='btn btn-danger'>Delete</button>"
+                " <button class='btn btn-danger' data-id='" + row.id + "' onClick='deleteData(this)'>Delete</button>"
+        }
+
+        function deleteData(e) {
+            let id = $(e).data('id');
+            console.log(id);
+
+            $.ajax({
+                type: "DELETE",
+                url: "{{ url('api/student/delete') . '/' }}" + id,
+                // data: "data",
+                // dataType: "dataType",
+                success: () => {
+                    alert('Delete berhasil')
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            });
         }
     </script>
 @endpush
